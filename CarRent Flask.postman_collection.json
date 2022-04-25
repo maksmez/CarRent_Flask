@@ -1,0 +1,514 @@
+{
+	"info": {
+		"_postman_id": "55f65d2b-58f6-4785-8207-f16101c62a06",
+		"name": "CarRent Flask",
+		"description": "Токен и ключ идемпотентности передаются в заголовках:  \nX-Auth-Token  \nX-Idemp-Key  \nВсе ответы возвращают message, но если \"status\":\"200\" то оно пустое. Иначе там будет храниться описание ошибки.  \nОбщие коды ответов:  \n200 - хорошо  \n400 - неверные данные  \n401 -нет токена аунтентификации  \n403 - неправильный токен(нет прав на действие)  \n404/405 - указанный ресурс не существует  \n406 - нельзя удалить (для него есть заказы)  \n410 - нельзя удалить (уже удален)  \n424 - нельзя добавить заказ для несуществующего клиента  \n429 - слишком много запросов  \n500 - внутренняя ошибка сервера  \n503 - сервер временно недоступен",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User_and_company",
+			"item": [
+				{
+					"name": "DeleteUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'clients', 'action': 'del_client', 'content': [], 'token': '86fea40f0d4343288392df1f783bb52d'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/clients/del",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"clients",
+								"del"
+							]
+						},
+						"description": "Функция удаления пользователя по id.\n\n{ \"status\" : \"200\" }"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit_password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'clients', 'action': 'edit_pass', 'content': {'Password': '0efab319cc113a698ba482dd00dab8c25ee5537c2f974dc8cdc1c2fffdad46c7'}, 'token': '4eeaca2319404ecfb2b1e90ffc876f84'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/clients/edit_pass",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"clients",
+								"edit_pass"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddClient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation add_client{\r\n  add_client(\r\n      Name: \"Алексей\",\r\n      Fname:\"Алексеевич\",\r\n      Date:\"22-11-2021\",\r\n      Phone:\"89765432112\",\r\n      Email:\" alex@mail.ru\",\r\n      Passport:\"9876654334\",\r\n      Position:\"2\",\r\n      Comment:\"\",\r\n      NumVU:\"3213123\",\r\n      Password:\"alexpass\",\r\n      DateDel:\"22-12-2021\",\r\n      CategoryVU:\"A,B\")\r\n      {\r\n          id\r\n      }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "localhost/clients/add",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"clients",
+								"add"
+							]
+						},
+						"description": "Функция добавления нового клиента\n\n{\"status\" : \"200\",  \n\"data\" :  \n{ \"id\" : 2  \n}  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "EditClient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'clients', 'action': 'edit_client', 'content': {'Name': 'unit2', 'Surname': 'test2', 'Birthday': '02-02-2000', 'Email': 'unit2@mail.ru', 'CategoryVuID': 'b', 'NumVU': '22 bb'}, 'token': '4eeaca2319404ecfb2b1e90ffc876f84'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/clients/edit_client",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"clients",
+								"edit_client"
+							]
+						},
+						"description": "Функция редактирования клиента.\n\n{\"status\" : \"200\",  \n\"data\" :  \n{ \"id\" : 1  \n}  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "GetClient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'clients', 'action': 'get_client', 'content': [],'token': '4eeaca2319404ecfb2b1e90ffc876f84'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/clients/get_client",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"clients",
+								"get_client"
+							]
+						},
+						"description": "Функция поиска клиента по id. Возвращает данные клиента.  \n{ \"status\" : \"200\",  \n\"data\" :  \n{ \"id\" : 1,  \n\"Name\" : \"Алексей\",  \n\"Fname\" : \"Алексеевич\",  \n\"Date\" : \"22.11.2021\",  \n\"Phone\" : \"89765432112\",  \n\"Email\" : \"[alex@mail.ru](mailto:alex@mail.ru)\",  \n\"Passport\" : \"9876654334\",  \n\"Position\" : \"2\",  \n\"Comment\" : \"\",  \n\"NumVU\" : \"3213123\",  \n\"Password\" : \"alexpass\",  \n\"DateDel\" : \"22.12.2021\",  \n\"CategoryVU\" : \"{\"A\",\"B\"}\"  \n}  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Sign_in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Login",
+									"value": "7899887765",
+									"description": "логин(телефон)",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "Password",
+									"value": "123456789",
+									"description": "пароль",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "data",
+									"value": "{'endpoint': 'clients', 'action': 'sign_in', 'content': {'Phone': '123456789', 'Password': '385cfdbc00ec32031699460779c15099b2bba3cad0e440fffb08e10df0acb9e1'}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/clients/sign_in",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"clients",
+								"sign_in"
+							]
+						},
+						"description": "Функция для авторизации пользователя.\n\n{ \"status\" : \"200\" }"
+					},
+					"response": []
+				},
+				{
+					"name": "Log_out",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'clients', 'action': 'log_out', 'content': [], 'token': '06335e84287249148c5d3ed07d2a2f17'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/clients/log_out",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"clients",
+								"log_out"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign_up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'clients', 'action': 'sign_up', 'content': {'Id': 888, 'Name': 'test2', 'Surname': 'unit', 'Birthday': '01-01-2000', 'Phone': '987654321', 'Email': 'unit@mail.ru', 'CategoryVuID': 'a', 'NumVU': '11 aa', 'Password': '385cfdbc00ec32031699460779c15099b2bba3cad0e440fffb08e10df0acb9e1'}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/clients/sign_up",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"clients",
+								"sign_up"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cars_and_category",
+			"item": [
+				{
+					"name": "GetCar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'cars', 'action': 'get_car', 'content': {'Id': 1222}, 'token': '06335e84287249148c5d3ed07d2a2f17'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/cars/get",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"cars",
+								"get"
+							]
+						},
+						"description": "Функция поиска ТС по id. Возвращает данные ТС.\n\n{ \"status\" : \"200\",  \n\"data\" :  \n{ \"id\" : 1,  \n\"CompanyID\" : \"1\",  \n\"Location\" : \"ул. Ленина,11\",  \n\"Photos\" : \"{\"path1.jpg\" , \"path2.jpg\"}\",  \n\"RentCondition\" : \"100% предоплата\",  \n\"Header\" : \"Audi q8\",  \n\"Driver\" : \"true\",  \n\"Status\" : \"true\",  \n\"CategoryID\" : \"1\",  \n\"CategoryVU\" : \"B\",  \n\"DateDel\" : \"22-12-2021\",  \n\"FixedRate\" : \"110,8\",  \n\"Percent\" : \"5,1\",  \n\"Brand_and_name\" : \"Audi q8\",  \n\"Transmission\" : \"1\",  \n\"Engine\" : \"0\",  \n\"Car_type\" : \"3\",  \n\"Drive\" : \"0\",  \n\"Wheel_drive\" : \"1\",  \n\"Year\" : \"2020\",  \n\"Power\" : \"314\",  \n\"Price\" : \"2200\"  \n}  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "GetCars",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'cars', 'action': 'get_cars', 'content': {'CategoryID': 2}, 'token': '06335e84287249148c5d3ed07d2a2f17'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/cars/get_cars",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"cars",
+								"get_cars"
+							]
+						},
+						"description": "Функция вывода всех ТС. Возвращает массив данных ТС.\n\n{ \"status\" : \"200\",  \n\"data\" :  \n\\[{ \"id\" : 1,  \n\"CompanyID\" : \"1\",  \n\"Location\" : \"ул. Ленина,11\",  \n\"Photos\" : \"{\"path1.jpg\" , \"path2.jpg\"}\",  \n\"RentCondition\" : \"100% предоплата\",  \n\"Header\" : \"Audi q8\",  \n\"Driver\" : \"true\",  \n\"Status\" : \"true\",  \n\"CategoryID\" : \"1\",  \n\"CategoryVU\" : \"B\",  \n\"DateDel\" : \"22-12-2021\",  \n\"FixedRate\" : \"110,8\",  \n\"Percent\" : \"5,1\",  \n\"Brand_and_name\" : \"Audi q8\",  \n\"Transmission\" : \"1\",  \n\"Engine\" : \"0\",  \n\"Car_type\" : \"3\",  \n\"Drive\" : \"0\",  \n\"Wheel_drive\" : \"1\",  \n\"Year\" : \"2020\",  \n\"Power\" : \"314\",  \n\"Price\" : \"2200\"  \n}\\]  \n}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "GetOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'orders', 'action': 'get_order', 'content': {'Id': 1},'token': '06335e84287249148c5d3ed07d2a2f17'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/orders/get",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"orders",
+								"get"
+							]
+						},
+						"description": "Функция поиска заявки по id. Возвращает данные заявки.\n\n{ \"status\" : \"200\",  \n\"data\" :  \n{ \"id\" : 1,  \n\"ClientId\" : \"1\",  \n\"CarId\" : \"1\",  \n\"DateStartContract\" : \"22-11-2021\",  \n\"DateEndContract\" : \"25-11-2021\",  \n\"Driver\" : \"false\",  \n\"Note\" : \"примечание к заказу\",  \n\"Status\" : \"1\",  \n\"Comission\" : \"28.8\",  \n\"Cost\" : \"3400\",  \n\"DateDel\" : \"22.12.2021\"  \n}  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "GetOrders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'orders', 'action': 'get_orders', 'content': [], 'token': '06335e84287249148c5d3ed07d2a2f17'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/orders/get_orders",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"orders",
+								"get_orders"
+							]
+						},
+						"description": "Функция вывода всех заявок. Возвращает массив данных заявок.  \n\n{ \"status\" : \"200\",  \n\"data\" :  \n\\[{ \"id\" : 1,  \n\"ClientId\" : \"1\",  \n\"CarId\" : \"1\",  \n\"DateStartContract\" : \"22-11-2021\",  \n\"DateEndContract\" : \"25-11-2021\",  \n\"Driver\" : \"false\",  \n\"Note\" : \"примечание к заказу\",  \n\"Status\" : \"1\",  \n\"Comission\" : \"28.8\",  \n\"Cost\" : \"3400\",  \n\"DateDel\" : \"22.12.2021\"  \n}\\]  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "AddOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'orders', 'action': 'add_order', 'content': {'CarId': '1', 'DateStartContract': '20-01-2020', 'DateEndContract': '20-02-2020'} ,'token': '06335e84287249148c5d3ed07d2a2f17'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/orders/add",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"orders",
+								"add"
+							]
+						},
+						"description": "Функция добавления новой заявки\n\n{\"status\" : \"200\",  \n\"data\" :  \n{ \"id\" : 1  \n}  \n}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorite",
+			"item": [
+				{
+					"name": "Add_favorite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'clients', 'action': 'add_favorite', 'content': {'Id': 888, 'CarId': 1}, 'token': '06335e84287249148c5d3ed07d2a2f17'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/favorite/add",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"favorite",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Del_favorite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'clients', 'action': 'del_favorite', 'content': {'CarId': 1}, 'token': '06335e84287249148c5d3ed07d2a2f17'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/favorite/del",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"favorite",
+								"del"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_favorite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{'endpoint': 'clients', 'action': 'get_favorites', 'content': [], 'token': '06335e84287249148c5d3ed07d2a2f17'}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:5000/favorite/get",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"favorite",
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
